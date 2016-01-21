@@ -10,7 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
+#include "fdf.h"
+
+int				ft_trace(void)
+{
+	ft_putstr("COUCOU");
+	return (1);
+}
 
 int				main(void)
 {
@@ -18,30 +24,26 @@ int				main(void)
 	void		*win;
 	int			x;
 	int			y;
-	// int			col;
-	// char		*str;
-	// char		*str1;
-	// char		*str2;
-	// char		*str3;
 
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, 500, 500, "truc");
+	win = mlx_new_window(mlx, 500, 500, "Martin");
 	x = 100;
-	while (x < 250)
+	y = 100;
+	while (x < 226)
 	{
 		y = 100;
-		// str = "0x00";
-		// str1 = ft_itoa(x);
-		// str2 = ft_itoa(x);
-		// str3 = ft_itoa(y);
-		// col = ft_atoi()
-		while (y < 320)
+		mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
+		while (y < 226)
 		{
 			mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
-			y++;
+			if (x % 20 == 0)
+				y++;
+			else
+				y += 25;
 		}
 		x++;
 	}
+	ft_trace();
 	mlx_loop(mlx);
 	return (1);
 }
