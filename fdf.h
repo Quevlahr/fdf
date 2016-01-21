@@ -15,11 +15,16 @@
 
 # include "libft/includes/libft.h"
 # include <mlx.h>
+# include <stdlib.h>
 
-typedef struct
+typedef struct			s_point
 {
-	
-};
+	int					x;
+	int					y;
+	int					alt;
+	struct s_point		*next;
+	struct s_point		*prev;
+}						t_point;
 
 int				main(void);
 int				ft_trace(void);
