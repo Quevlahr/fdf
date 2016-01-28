@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <fcntl.h> // pour open
 
 void			ft_putpoints(t_point *pt)
 {
@@ -49,43 +50,77 @@ void			ft_createpoint(t_point **pt, int x, int y, int alt)
 	}
 }
 
-int				ft_trace(void)
+int				main(int ac, char **av)
 {
-	ft_putstr("COUCOU");
-	return (1);
-}
-
-int				main(void)
-{
-	// void		*mlx;
-	// void		*win;
+	void		*mlx;
+	void		*win;
 	int			x;
 	int			y;
+	int			alt;
 	t_point		*pt1;
+	char		*str = NULL;
+	int			fd = 0;
 
-	pt1 = (t_point*)malloc(sizeof(t_point));
-	pt1 = NULL;
-	ft_createpoint(&pt1, 0, 0, 1);
-	ft_putpoints(pt1);
-	// mlx = mlx_init();
-	// win = mlx_new_window(mlx, 500, 500, "Martin");
-	x = 100;
-	y = 100;
-	while (x < 226)
+	if (ac == 2)
 	{
-		y = 100;
-		// mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
-		while (y < 226)
+		fd = open(av[1], O_RDONLY);
+		while (get_next_line(fd, &str) > 0)
 		{
-			// mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
-			if (x % 20 == 0)
-				y++;
-			else
-				y += 25;
+			x = ft_atoi(str);
+			while (ft_isdigit(*str))
+				str++;
+			y = ft_atoi(str);
+			while (ft_isdigit(*str))
+				str++;
+			alt = ft_atoi(str);
+			ft_createpoint(&pt1, x, y, alt);
 		}
-		x++;
+		while (pt1->prev)
+			pt1 = pt1->prev;
+		ft_putpoints(pt1);
+		close(fd);
+		mlx = mlx_init();
+		win = mlx_new_window(mlx, 500, 500, "Test_point");
+		while (pt1->next)
+		{
+			x = pt1->x;
+			y = pt1->y;
+			if (x > pt1->next->x)
+			{
+				while (x > pt1->next->x)
+				{
+					mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
+					x--;
+				}
+			}
+			else
+			{
+				while (x < pt1->next->x)
+				{
+					mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
+					x++;
+				}
+			}
+			if (y > pt1->next->y)
+			{
+				while (y > pt1->next->y)
+				{
+					mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
+					y--;
+				}	
+			}
+			else
+			{
+				while (y < pt1->next->y)
+				{
+					mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
+					y++;
+				}
+			}
+			pt1 = pt1->next;
+		}
+		// ft_trace();
+		mlx_loop(mlx);
 	}
-	// ft_trace();
-	// mlx_loop(mlx);
 	return (1);
 }

@@ -26,7 +26,7 @@ typedef struct			s_point
 	struct s_point		*prev;
 }						t_point;
 
-int				main(void);
+int				main(int ac, char **av);
 int				ft_trace(void);
 
 #endif
