@@ -102,7 +102,7 @@ int				main(int ac, char **av)
 			{
 				while (x < pt1->next->x)
 				{
-					y = (int) (a * x + b);
+					y = (int) (0.82 * x + b);
 					mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF); //blanc
 					x++;
 				}
@@ -111,7 +111,7 @@ int				main(int ac, char **av)
 			{
 				while (x > pt1->next->x)
 				{
-					y = (int) (a * x + b);
+					y = (int) (0.82 * x + b);
 					mlx_pixel_put(mlx, win, x, y, 0x0000FFFF); //blanc
 					x--;
 				}	
