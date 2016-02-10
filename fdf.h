@@ -17,11 +17,15 @@
 # include <mlx.h>
 # include <stdlib.h>
 
+# define ZOOM 30
+# define LENGTH 1500
+
 typedef struct			s_point
 {
 	int					x;
 	int					y;
 	int					alt;
+	int					color;
 	struct s_point		*next;
 	struct s_point		*prev;
 }						t_point;
