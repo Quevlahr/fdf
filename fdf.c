@@ -63,15 +63,18 @@ int				main(int ac, char **av)
 {
 	void		*mlx;
 	void		*win;
-	int		x = 0;
-	int		y = 0;
+	int		x = 1;
+	int		y = 1;
 	int			alt;
 	t_point		*pt1;
 	char		*str = NULL;
 	int			fd = 0;
 	double		a, b;
-	double		truc = 0;
+	int			max_x;
+	int			max_y;
 
+	max_x = 19;
+	max_y = 11;
 	a = b = 0;
 	if (ac == 2)
 	{
@@ -87,30 +90,33 @@ int				main(int ac, char **av)
 					str++;
 				while (*str == ' ' && *str)
 					str++;
-				ft_createpoint(&pt1, x * ZOOM + 450, y * ZOOM, alt);
+				ft_createpoint(&pt1, x, y, alt);
+				// ft_createpoint(&pt1, x * ZOOM + 450, y * ZOOM, alt);
 				x++;
 			}
 			y++;
 		}
 		while (pt1->prev)
-		{
-			ft_putendl("YOLO");
 			pt1 = pt1->prev;
-		}
 		ft_putpoints(pt1);
 		close(fd);
 		mlx = mlx_init();
-		win = mlx_new_window(mlx, 1500, 1500, "Test_point");
+		win = mlx_new_window(mlx, 1000, 1000, "Test_point");
 		while (pt1)
 		{
-			if (pt1->prev != NULL)
+			if (pt1->x == 0)
 			{
-				truc = 0;
+				max_x--;
+				max_y--;
 			}
-			a = (int) (pt1->x);
-			b = (int) (pt1->y);
+			a = pt1->x + ((pt1->x + 1) * (ZOOM * 0.82)) + (ZOOM * 0.82 * max_x);
+			b = pt1->y + (pt1->y * ZOOM * 0.48) + (ZOOM * 0.48 * pt1->x);
 			mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
 			pt1 = pt1->next;
+
+			// quasi parallele
+			// a = (double) (pt1->x + ((pt1->x + 1) * (ZOOM - (ZOOM - (ZOOM * 0.82)))));
+			// b = (double) (pt1->y + ((pt1->y + 1) * ZOOM) + (ZOOM * 0.48 * pt1->x));
 
 			// x = pt1->x;
 			// y = pt1->y;

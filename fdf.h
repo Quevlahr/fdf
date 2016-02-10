@@ -17,7 +17,7 @@
 # include <mlx.h>
 # include <stdlib.h>
 
-# define ZOOM 30
+# define ZOOM 20
 # define LENGTH 1500
 
 typedef struct			s_point
