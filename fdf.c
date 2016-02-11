@@ -12,6 +12,7 @@
 
 #include "fdf.h"
 #include <fcntl.h> // pour open
+#include <stdio.h> // printf
 
 void			ft_putpoints(t_point *pt)
 {
@@ -69,11 +70,11 @@ int				main(int ac, char **av)
 	t_point		*pt1;
 	char		*str = NULL;
 	int			fd = 0;
-	double		a, b;
+	float		a, b;
 	int			max_x;
 	int			max_y;
 
-	max_x = 19;
+	max_x = 25;
 	max_y = 11;
 	a = b = 0;
 	if (ac == 2)
@@ -109,8 +110,8 @@ int				main(int ac, char **av)
 				max_x--;
 				max_y--;
 			}
-			a = pt1->x + ((pt1->x + 1) * (ZOOM * 0.82)) + (ZOOM * 0.82 * max_x);
-			b = pt1->y + (pt1->y * ZOOM * 0.48) + (ZOOM * 0.48 * pt1->x);
+			a = pt1->x + (pt1->x) * ZOOM * cos(26.565 * PI /180) + (ZOOM * cos(26.565 * PI / 180) * max_x);
+			b = pt1->y + (pt1->y) * ZOOM * sin(26.565 * PI / 180) + (ZOOM * sin(26.565 * PI / 180) * pt1->x);
 			mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
 			pt1 = pt1->next;
 
