@@ -71,11 +71,11 @@ int				main(int ac, char **av)
 	char		*str = NULL;
 	int			fd = 0;
 	float		a, b;
-	int			max_x;
-	int			max_y;
+	t_max_xy	*max;
 
-	max_x = 25;
-	max_y = 11;
+	max = (t_max_xy*)malloc(sizeof(t_max_xy));
+	max->x = 0;
+	max->y = 0;
 	a = b = 0;
 	if (ac == 2)
 	{
@@ -98,26 +98,44 @@ int				main(int ac, char **av)
 			y++;
 		}
 		while (pt1->prev)
+		{
+			if (max->y < pt1->y)
+				max->y = pt1->y;
+			if (max->x < pt1->x)
+				max->x = pt1->x;
 			pt1 = pt1->prev;
+		}
+
+		max->ajout_x = LENGTH / 2 - max->x * ZOOM / 2;
+		max->ajout_y = LENGTH / 2 - max->y * ZOOM / 2;
+
 		ft_putpoints(pt1);
 		close(fd);
 		mlx = mlx_init();
-		win = mlx_new_window(mlx, 1000, 1000, "Test_point");
+		win = mlx_new_window(mlx, LENGTH, LENGTH, "Test_point");
 		while (pt1)
 		{
 			if (pt1->x == 0)
 			{
-				max_x--;
-				max_y--;
+				max->x--;
+				max->y--;
 			}
-			a = pt1->x + (pt1->x) * ZOOM * cos(26.565 * PI /180) + (ZOOM * cos(26.565 * PI / 180) * max_x);
-			b = pt1->y + (pt1->y) * ZOOM * sin(26.565 * PI / 180) + (ZOOM * sin(26.565 * PI / 180) * pt1->x);
-			mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
-			pt1 = pt1->next;
+			a = pt1->x * ZOOM * cos(30 * PI /180) + max->ajout_x;
+			b = pt1->y * ZOOM * sin(30 * PI /180) + max->ajout_y;
+			a += pt1->y * ZOOM;//* cos(30 * PI / 180);
+			b -= pt1->x * ZOOM * sin(30 * PI /180);//* sin(30 * PI /180); //part de 0 pour ajouter plus et remonter plus
+
+			// if (pt1->x == 0)
+			// 		max->x--;
+			// a = (pt1->x + 1) * ZOOM * cos(30 * PI /180) + (ZOOM * cos(30 * PI / 180) * max->x);
+			// b = (pt1->y + 1) * ZOOM * sin(30 * PI / 180) + (ZOOM * sin(30 * PI / 180) * pt1->x;
 
 			// quasi parallele
-			// a = (double) (pt1->x + ((pt1->x + 1) * (ZOOM - (ZOOM - (ZOOM * 0.82)))));
-			// b = (double) (pt1->y + ((pt1->y + 1) * ZOOM) + (ZOOM * 0.48 * pt1->x));
+			// a = (pt1->x + 1) * (ZOOM - (ZOOM - (ZOOM * 0.82)));
+			// b = ((pt1->y + 1) * ZOOM) + (ZOOM * 0.48 * pt1->x);
+
+			mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
+			pt1 = pt1->next;
 
 			// x = pt1->x;
 			// y = pt1->y;
@@ -156,7 +174,7 @@ int				main(int ac, char **av)
 			// pt1 = pt1->next;
 			// x = pt1->x;
 			// y = pt1->y;
-			// a = (double) (pt1->next->y - pt1->y) / (pt1->next->x - pt1->x);
+			// a = (pt1->next->y - pt1->y) / (pt1->next->x - pt1->x);
 			// b = pt1->y - a * pt1->x;
 			// if (x < pt1->next->x)
 			// {

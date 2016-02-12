@@ -19,7 +19,7 @@
 # include <math.h>
 
 # define ZOOM 20
-# define LENGTH 1500
+# define LENGTH 700
 # define PI 3.14159265358979323846
 
 typedef struct			s_point
@@ -31,6 +31,14 @@ typedef struct			s_point
 	struct s_point		*next;
 	struct s_point		*prev;
 }						t_point;
+
+typedef struct			s_max_xy
+{
+	int					x;
+	int					y;
+	float				ajout_x;
+	float				ajout_y;
+}						t_max_xy;
 
 int				main(int ac, char **av);
 int				ft_trace(void);
