@@ -115,15 +115,28 @@ int				main(int ac, char **av)
 		win = mlx_new_window(mlx, LENGTH, LENGTH, "Test_point");
 		while (pt1)
 		{
-			if (pt1->x == 0)
-			{
-				max->x--;
-				max->y--;
-			}
-			a = pt1->x * ZOOM * cos(30 * PI /180) + max->ajout_x;
-			b = pt1->y * ZOOM * sin(30 * PI /180) + max->ajout_y;
-			a += pt1->y * ZOOM;//* cos(30 * PI / 180);
-			b -= pt1->x * ZOOM * sin(30 * PI /180);//* sin(30 * PI /180); //part de 0 pour ajouter plus et remonter plus
+			a = pt1->x * ZOOM + max->ajout_x;
+			b = pt1->y * ZOOM + max->ajout_y;
+
+			// iso 
+			a -= pt1->y * ZOOM;
+			b += pt1->x * ZOOM * 0.5;
+			b -= pt1->y * ZOOM * 0.5;
+
+			// iso 
+			// a += pt1->y * ZOOM;
+			// b -= pt1->x * ZOOM * 0.5; // sin(30)
+			// b -= pt1->y * ZOOM * 0.5;
+
+			// if (pt1->x == 0)
+			// {
+			// 	max->x--;
+			// 	max->y--;
+			// }
+			// a = pt1->x * ZOOM * cos(30 * PI /180) + max->ajout_x;
+			// b = pt1->y * ZOOM * sin(30 * PI /180) + max->ajout_y;
+			// a += pt1->y * ZOOM;//* cos(30 * PI / 180);
+			// b -= pt1->x * ZOOM * sin(30 * PI /180);//* sin(30 * PI /180); //part de 0 pour ajouter plus et remonter plus
 
 			// if (pt1->x == 0)
 			// 		max->x--;
