@@ -52,6 +52,35 @@ void			ft_createpoint(t_point **pt, int x, int y, int alt)
 	}
 }
 
+t_point			*ft_read_file(t_point *pt1, char *file, char *str)
+{
+	int			x;
+	int			y;
+	int			alt;
+	int			fd;
+
+	y = 0;
+	fd = open(file, O_RDONLY);
+	while (get_next_line(fd, &str) > 0)
+	{
+		ft_putendl(str);
+		x = 0;
+		while (*str != '\0')
+		{
+			alt = ft_atoi(str);
+			while (ft_isdigit(*str) && *str)
+				str++;
+			while (*str == ' ' && *str)
+				str++;
+			ft_createpoint(&pt1, x, y, alt);
+			x++;
+		}
+		y++;
+	}
+	close(fd);
+	return (pt1);
+}
+
 int				ft_putkey(int keycode, void *param)
 {
 	ft_putstr("key event ");
@@ -60,45 +89,79 @@ int				ft_putkey(int keycode, void *param)
 	return (1);
 }
 
-int				ft_trace(int pt1)
+void			ft_calc_iso1(t_point *pt1, float *a, float *b, t_max_xy *max)
+{
+	*a = pt1->x * ZOOM + max->ajout_x;
+	*b = pt1->y * ZOOM + max->ajout_y;
+
+	*a += pt1->y * ZOOM;
+	*b -= pt1->x * ZOOM * 0.5; // sin(30)
+	*b -= pt1->y * ZOOM * 0.5;
+}
+
+int				ft_trace(void *mlx, void *win, t_point *pt1, t_max_xy * max)
+{
+	float		a;
+	float		b;
+	float		c;
+	float		d;
+	float		a_eq;
+	float		b_eq;
+
+	while (pt1->next)
+	{
+		ft_calc_iso1(pt1, &a, &b, max);
+		ft_calc_iso1(pt1->next, &c, &d, max);
+
+
+
+		a_eq = (d - b) / (c - a);
+		b_eq = b - a_eq * a;
+		if (a < c)
+		{
+			while (a < c)
+			{
+				b = (int) (a_eq * a + b_eq);
+				mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF); //blanc
+				a++;
+			}
+		}
+		else
+		{
+			while (a > c)
+			{
+				b = (int) (a_eq * a + b_eq);
+				mlx_pixel_put(mlx, win, a, b, 0x0000FFFF); //blanc
+				a--;
+			}	
+		}
+
+
+
+
+
+
+
+		mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
+		pt1 = pt1->next;
+	}
+	return (0);
+}
 
 int				main(int ac, char **av)
 {
 	void		*mlx;
 	void		*win;
-	int		x = 1;
-	int		y = 1;
-	int			alt;
 	t_point		*pt1;
-	char		*str = NULL;
-	int			fd = 0;
-	float		a, b;
 	t_max_xy	*max;
 
 	max = (t_max_xy*)malloc(sizeof(t_max_xy));
 	max->x = 0;
 	max->y = 0;
-	a = b = 0;
 	if (ac == 2)
 	{
-		fd = open(av[1], O_RDONLY);
-		while (get_next_line(fd, &str) > 0)
-		{
-			ft_putendl(str);
-			x = 0;
-			while (*str != '\0')
-			{
-				alt = ft_atoi(str);
-				while (ft_isdigit(*str) && *str)
-					str++;
-				while (*str == ' ' && *str)
-					str++;
-				ft_createpoint(&pt1, x, y, alt);
-				// ft_createpoint(&pt1, x * ZOOM + 450, y * ZOOM, alt);
-				x++;
-			}
-			y++;
-		}
+		pt1 = ft_read_file(NULL, av[1], NULL);
+
 		while (pt1->prev)
 		{
 			if (max->y < pt1->y)
@@ -112,15 +175,13 @@ int				main(int ac, char **av)
 		max->ajout_y = LENGTH / 2 - max->y * ZOOM / 2;
 
 		ft_putpoints(pt1);
-		close(fd);
 		mlx = mlx_init();
 		win = mlx_new_window(mlx, LENGTH, LENGTH, "Test_point");
-		while (pt1)
-		{
-			ft_trace
-			ft_calc_iso1(pt1, &a, &b);
-			a = pt1->x * ZOOM + max->ajout_x;
-			b = pt1->y * ZOOM + max->ajout_y;
+		// while (pt1)
+		// {
+			ft_trace(mlx, win, pt1, max);
+			// a = pt1->x * ZOOM + max->ajout_x;
+			// b = pt1->y * ZOOM + max->ajout_y;
 
 			// iso 
 			// a -= pt1->y * ZOOM;
@@ -128,9 +189,9 @@ int				main(int ac, char **av)
 			// b -= pt1->y * ZOOM * 0.5;
 
 			// iso 
-			a += pt1->y * ZOOM;
-			b -= pt1->x * ZOOM * 0.5; // sin(30)
-			b -= pt1->y * ZOOM * 0.5;
+			// a += pt1->y * ZOOM;
+			// b -= pt1->x * ZOOM * 0.5; // sin(30)
+			// b -= pt1->y * ZOOM * 0.5;
 
 			// if (pt1->x == 0)
 			// {
@@ -151,8 +212,8 @@ int				main(int ac, char **av)
 			// a = (pt1->x + 1) * (ZOOM - (ZOOM - (ZOOM * 0.82)));
 			// b = ((pt1->y + 1) * ZOOM) + (ZOOM * 0.48 * pt1->x);
 
-			mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
-			pt1 = pt1->next;
+			// mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
+			// pt1 = pt1->next;
 
 			// x = pt1->x;
 			// y = pt1->y;
@@ -212,7 +273,7 @@ int				main(int ac, char **av)
 			// 	}	
 			// }
 			// pt1 = pt1->next;
-		}
+		// }
 		// ft_trace();
 		mlx_key_hook(win, ft_putkey, 0);
 		mlx_loop(mlx);

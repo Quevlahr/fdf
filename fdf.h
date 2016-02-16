@@ -41,6 +41,5 @@ typedef struct			s_max_xy
 }						t_max_xy;
 
 int				main(int ac, char **av);
-int				ft_trace(void);
 
 #endif
