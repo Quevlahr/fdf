@@ -60,6 +60,8 @@ int				ft_putkey(int keycode, void *param)
 	return (1);
 }
 
+int				ft_trace(int pt1)
+
 int				main(int ac, char **av)
 {
 	void		*mlx;
@@ -115,18 +117,20 @@ int				main(int ac, char **av)
 		win = mlx_new_window(mlx, LENGTH, LENGTH, "Test_point");
 		while (pt1)
 		{
+			ft_trace
+			ft_calc_iso1(pt1, &a, &b);
 			a = pt1->x * ZOOM + max->ajout_x;
 			b = pt1->y * ZOOM + max->ajout_y;
 
 			// iso 
-			a -= pt1->y * ZOOM;
-			b += pt1->x * ZOOM * 0.5;
-			b -= pt1->y * ZOOM * 0.5;
+			// a -= pt1->y * ZOOM;
+			// b += pt1->x * ZOOM * 0.5;
+			// b -= pt1->y * ZOOM * 0.5;
 
 			// iso 
-			// a += pt1->y * ZOOM;
-			// b -= pt1->x * ZOOM * 0.5; // sin(30)
-			// b -= pt1->y * ZOOM * 0.5;
+			a += pt1->y * ZOOM;
+			b -= pt1->x * ZOOM * 0.5; // sin(30)
+			b -= pt1->y * ZOOM * 0.5;
 
 			// if (pt1->x == 0)
 			// {
