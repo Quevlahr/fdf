@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= 	fdf
+NAME 		= 	a.out
 
 CC			= 	gcc
 CFLAGS		= 	-Wall -Werror -Wextra -g
@@ -28,19 +28,19 @@ all: $(NAME)
 
 .SILENT : $(NAME)
 $(NAME):
-	cd libft/ && $(MAKE) re
+	# cd libft/ && $(MAKE) re
 	$(CC) $(CFLAGS) -c $(HEADER) $(SRC)
 	$(CC) -o $(NAME) $(OBJ) $(LIB)
 
 .SILENT : clean
 clean:
-	cd libft/ && $(MAKE) clean
+	# cd libft/ && $(MAKE) clean
 	rm -f $(OBJ)
 	rm -f *.gch
 
 .SILENT : fclean
 fclean: clean
-	cd libft/ && $(MAKE) fclean
+	# cd libft/ && $(MAKE) fclean
 	rm -f $(NAME)
 
 re: fclean all
