@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <math.h>
 
-# define ZOOM 20
+# define ZOOM 14
 # define LENGTH 800
 # define PI 3.14159265358979323846
 
