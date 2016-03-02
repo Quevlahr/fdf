@@ -14,18 +14,24 @@
 #include <fcntl.h> // pour open
 #include <stdio.h> // printf
 
-void			ft_putpoints(t_point *pt)
+void			ft_putpoints(t_point *pt1)
 {
-	while (pt)
+	while (pt1)
 	{
-		ft_putnbr(pt->x);
+		ft_putnbr(pt1->a);
 		ft_putstr(" - ");
-		ft_putnbr(pt->y);
+		ft_putnbr(pt1->b);
 		ft_putstr(" - ");
-		ft_putnbr(pt->alt);
+		ft_putnbr(pt1->alt);
 		ft_putstr(";\n");
-		pt = pt->next;
+		pt1 = pt1->next;
 	}
+}
+
+void			ft_atthebeginning(t_point **pt1)
+{
+	while ((*pt1)->prev != NULL)
+		*pt1 = (*pt1)->prev;
 }
 
 void			ft_createpoint(t_point **pt, int x, int y, int alt)
@@ -35,6 +41,8 @@ void			ft_createpoint(t_point **pt, int x, int y, int alt)
 	tmp = (t_point*)malloc(sizeof(t_point));
 	tmp->x = x;
 	tmp->y = y;
+	tmp->a = 0;
+	tmp->b = 0;
 	tmp->alt = alt;
 	tmp->color = 0;
 	tmp->next = NULL;
@@ -89,62 +97,90 @@ int				ft_putkey(int keycode, void *param)
 	return (1);
 }
 
-void			ft_calc_iso1(t_point *pt1, float *a, float *b, t_max_xy *max)
+void			ft_calc_iso1(t_point *pt1, t_max_xy *max)
 {
-	*a = pt1->x * ZOOM + max->ajout_x;
-	*b = pt1->y * ZOOM + max->ajout_y;
+	pt1->a = pt1->x * ZOOM + max->ajout_x;
+	pt1->b = pt1->y * ZOOM + max->ajout_y;
 
-	*a += pt1->y * ZOOM;
-	*b -= pt1->x * ZOOM * 0.5; // sin(30)
-	*b -= pt1->y * ZOOM * 0.5;
+	pt1->a += pt1->y * ZOOM;
+	pt1->b -= pt1->x * ZOOM * 0.5; // sin(30)
+	pt1->b -= pt1->y * ZOOM * 0.5;
+
+	if (pt1->alt != 0)
+		pt1->b -= pt1->alt * ZOOM * 1.25;
 }
 
-int				ft_trace(void *mlx, void *win, t_point *pt1, t_max_xy * max)
+float			ft_found(t_point *pt1, int i, int boolean)
 {
-	float		a;
-	float		b;
-	float		c;
-	float		d;
+	int			j;
+
+	j = 0;
+	while (j < i + 1 && pt1->next)
+	{
+		pt1 = pt1->next;
+		j++;
+	}
+	if (pt1->next == NULL)
+		return (0);
+	if (boolean == 1)
+		return (pt1->a);
+	else
+		return (pt1->b);
+}
+
+int				ft_trace(void *mlx, void *win, t_point *pt1, t_max_xy *max)
+{
 	float		a_eq;
 	float		b_eq;
 
 	while (pt1->next)
 	{
-		ft_calc_iso1(pt1, &a, &b, max);
-		ft_calc_iso1(pt1->next, &c, &d, max);
-
-
-
-		a_eq = (d - b) / (c - a);
-		b_eq = b - a_eq * a;
-		if (a < c)
-		{
-			while (a < c)
-			{
-				b = (int) (a_eq * a + b_eq);
-				mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF); //blanc
-				a++;
-			}
-		}
-		else
-		{
-			while (a > c)
-			{
-				b = (int) (a_eq * a + b_eq);
-				mlx_pixel_put(mlx, win, a, b, 0x0000FFFF); //blanc
-				a--;
-			}	
-		}
-
-
-
-
-
-
-
-		mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
+		ft_calc_iso1(pt1, max);
 		pt1 = pt1->next;
 	}
+	ft_putpoints(pt1);
+	ft_atthebeginning(&pt1);
+	ft_putpoints(pt1);
+	while (pt1->next)
+	{
+		// a_eq = (pt1->next->b - pt1->b) / (pt1->next->a - pt1->a);
+		// b_eq = pt1->b - a_eq * pt1->a;
+		// if (pt1->a < pt1->next->a)
+		// {
+		// 	while (pt1->a < pt1->next->a)
+		// 	{
+		// 		pt1->b = (int) (a_eq * pt1->a + b_eq);
+		// 		mlx_pixel_put(mlx, win, pt1->a, pt1->b, 0x00FFFFFF); //blanc
+		// 		pt1->a += 1;
+		// 	}
+		// }
+
+		a_eq = (ft_found(pt1, max->x, 0) - pt1->b) / (ft_found(pt1, max->x, 1) - pt1->a);
+		b_eq = pt1->b - a_eq * pt1->a;
+		if (pt1->a < ft_found(pt1, max->x, 1))
+		{
+			while (pt1->a < ft_found(pt1, max->x, 1))
+			{
+				pt1->b = (int) (a_eq * pt1->a + b_eq);
+				mlx_pixel_put(mlx, win, pt1->a, pt1->b, 0x00FFFFFF); //blanc
+				pt1->a += 1;
+			}
+		}
+		// else
+		// {
+		// 	while (pt1->a > pt1->next->a)
+		// 	{
+		// 		pt1->b = (int) (a_eq * pt1->a + b_eq);
+		// 		mlx_pixel_put(mlx, win, pt1->a, pt1->b, 0x0000FFFF); //blanc
+		// 		pt1->a -= 1;
+		// 	}	
+		// }
+
+
+		// mlx_pixel_put(mlx, win, pt1->a, pt1->b, 0x00FFFFFF);
+		pt1 = pt1->next;
+	}
+	// ft_after_next();
 	return (0);
 }
 
@@ -177,104 +213,7 @@ int				main(int ac, char **av)
 		ft_putpoints(pt1);
 		mlx = mlx_init();
 		win = mlx_new_window(mlx, LENGTH, LENGTH, "Test_point");
-		// while (pt1)
-		// {
-			ft_trace(mlx, win, pt1, max);
-			// a = pt1->x * ZOOM + max->ajout_x;
-			// b = pt1->y * ZOOM + max->ajout_y;
-
-			// iso 
-			// a -= pt1->y * ZOOM;
-			// b += pt1->x * ZOOM * 0.5;
-			// b -= pt1->y * ZOOM * 0.5;
-
-			// iso 
-			// a += pt1->y * ZOOM;
-			// b -= pt1->x * ZOOM * 0.5; // sin(30)
-			// b -= pt1->y * ZOOM * 0.5;
-
-			// if (pt1->x == 0)
-			// {
-			// 	max->x--;
-			// 	max->y--;
-			// }
-			// a = pt1->x * ZOOM * cos(30 * PI /180) + max->ajout_x;
-			// b = pt1->y * ZOOM * sin(30 * PI /180) + max->ajout_y;
-			// a += pt1->y * ZOOM;//* cos(30 * PI / 180);
-			// b -= pt1->x * ZOOM * sin(30 * PI /180);//* sin(30 * PI /180); //part de 0 pour ajouter plus et remonter plus
-
-			// if (pt1->x == 0)
-			// 		max->x--;
-			// a = (pt1->x + 1) * ZOOM * cos(30 * PI /180) + (ZOOM * cos(30 * PI / 180) * max->x);
-			// b = (pt1->y + 1) * ZOOM * sin(30 * PI / 180) + (ZOOM * sin(30 * PI / 180) * pt1->x;
-
-			// quasi parallele
-			// a = (pt1->x + 1) * (ZOOM - (ZOOM - (ZOOM * 0.82)));
-			// b = ((pt1->y + 1) * ZOOM) + (ZOOM * 0.48 * pt1->x);
-
-			// mlx_pixel_put(mlx, win, a, b, 0x00FFFFFF);
-			// pt1 = pt1->next;
-
-			// x = pt1->x;
-			// y = pt1->y;
-			// if (x > pt1->next->x)
-			// {
-			// 	while (x > pt1->next->x)
-			// 	{
-			// 		mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
-			// 		x--;
-			// 	}
-			// }
-			// else
-			// {
-			// 	while (x < pt1->next->x)
-			// 	{
-			// 		mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
-			// 		x++;
-			// 	}
-			// }
-			// if (y > pt1->next->y)
-			// {
-			// 	while (y > pt1->next->y)
-			// 	{
-			// 		mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
-			// 		y--;
-			// 	}	
-			// }
-			// else
-			// {
-			// 	while (y < pt1->next->y)
-			// 	{
-			// 		mlx_pixel_put(mlx, win, x, y, 0x00FF00FF);
-			// 		y++;
-			// 	}
-			// }
-			// pt1 = pt1->next;
-			// x = pt1->x;
-			// y = pt1->y;
-			// a = (pt1->next->y - pt1->y) / (pt1->next->x - pt1->x);
-			// b = pt1->y - a * pt1->x;
-			// if (x < pt1->next->x)
-			// {
-			// 	while (x < pt1->next->x)
-			// 	{
-			// 		y = (int) (0.82 * x + b);
-			// 		mlx_pixel_put(mlx, win, x, y, 0x00FFFFFF); //blanc
-			// 		x++;
-			// 	}
-			// }
-			// else
-			// {
-			// 	while (x > pt1->next->x)
-			// 	{
-			// 		y = (int) (0.82 * x + b);
-			// 		mlx_pixel_put(mlx, win, x, y, 0x0000FFFF); //blanc
-			// 		x--;
-			// 	}	
-			// }
-			// pt1 = pt1->next;
-		// }
-		// ft_trace();
+		ft_trace(mlx, win, pt1, max);
 		mlx_key_hook(win, ft_putkey, 0);
 		mlx_loop(mlx);
 	}

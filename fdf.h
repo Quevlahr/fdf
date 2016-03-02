@@ -19,13 +19,15 @@
 # include <math.h>
 
 # define ZOOM 20
-# define LENGTH 700
+# define LENGTH 800
 # define PI 3.14159265358979323846
 
 typedef struct			s_point
 {
 	int					x;
 	int					y;
+	float				a;
+	float				b;
 	int					alt;
 	int					color;
 	struct s_point		*next;
