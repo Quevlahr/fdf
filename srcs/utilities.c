@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: quroulon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/20 16:43:47 by quroulon          #+#    #+#             */
-/*   Updated: 2016/01/20 16:45:57 by quroulon         ###   ########.fr       */
+/*   Created: 2016/03/03 19:26:55 by quroulon          #+#    #+#             */
+/*   Updated: 2016/03/03 19:27:04 by quroulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
-int				main(int ac, char **av)
+void	ft_error(void)
 {
-	t_point		*pnt;
-	t_tool		*tool;
-
-	pnt = ft_read_file(av[1], NULL, NULL);
-	return (0);
+	ft_putstr("error\n");
+	exit(EXIT_FAILURE);
 }

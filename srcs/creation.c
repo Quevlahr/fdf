@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   creation.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: quroulon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/20 16:43:47 by quroulon          #+#    #+#             */
-/*   Updated: 2016/01/20 16:45:57 by quroulon         ###   ########.fr       */
+/*   Created: 2016/03/03 19:17:27 by quroulon          #+#    #+#             */
+/*   Updated: 2016/03/03 19:17:28 by quroulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
-int				main(int ac, char **av)
+t_point				*ft_read_file(char *file, char *str)
 {
-	t_point		*pnt;
-	t_tool		*tool;
+	int				x;
+	int				y;
+	int				alt;
+	int				fd;
 
-	pnt = ft_read_file(av[1], NULL, NULL);
-	return (0);
+	fd = open(file, O_RDONLY);
+	y = 0;
+	while (get_next_line(fd, &str) > 0)
+	{
+		while (*str)
+		{
+			if (ft_verif(str))
+			x++;
+		}
+		y++;
+	}
 }

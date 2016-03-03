@@ -15,12 +15,11 @@
 
 # include "libft/includes/libft.h"
 # include <mlx.h>
+#include <fcntl.h> // pour open
 # include <stdlib.h>
 # include <math.h>
 
-# define ZOOM 14
 # define LENGTH 900
-# define ALTITUDE 1
 
 typedef struct			s_point
 {
@@ -34,14 +33,21 @@ typedef struct			s_point
 	struct s_point		*prev;
 }						t_point;
 
-typedef struct			s_max_xy
+typedef struct			s_tool
 {
 	int					x;
 	int					y;
+	int					zoom;
 	float				ajout_x;
 	float				ajout_y;
-}						t_max_xy;
+	float				height;
+	void				*mlx;
+	void				*win;
+}						t_tool;
 
-int				main(int ac, char **av);
+int					main(int ac, char **av);
+t_point				*ft_read_file(char *file, char *str)
+void				ft_error(void)
+
 
 #endif

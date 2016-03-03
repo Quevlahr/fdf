@@ -10,12 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= 	a.out
+NAME 		= 	fdf
 
 CC			= 	gcc
 CFLAGS		= 	-Wall -Werror -Wextra -g
 
-SRC 		= 	fdf.c
+SRC 		= 	fdf.c srcs/creatiom.c srcs/utilities.c
 
 LIB			=	libft/libft.a -lmlx -framework OpenGL -framework AppKit
 
