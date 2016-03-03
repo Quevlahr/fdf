@@ -19,8 +19,8 @@
 # include <math.h>
 
 # define ZOOM 14
-# define LENGTH 800
-# define PI 3.14159265358979323846
+# define LENGTH 900
+# define ALTITUDE 1
 
 typedef struct			s_point
 {
