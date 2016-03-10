@@ -12,7 +12,70 @@
 
 #include "../fdf.h"
 
-t_point				*ft_read_file(char *file, char *str)
+static int			ft_ishexa(char *str)
+{
+	(void)str;
+	return (1);
+}
+
+void				ft_createpoint(t_point **pt, int x, int y, int alt)
+{
+	t_point			*tmp;
+
+	tmp = (t_point*)malloc(sizeof(t_point));
+	tmp->x = x;
+	tmp->y = y;
+	tmp->a = 0;
+	tmp->b = 0;
+	tmp->alt = alt;
+	tmp->color = 0;
+	tmp->next = NULL;
+	if (*pt == NULL)
+	{
+		tmp->prev = NULL;
+		*pt = tmp;
+	}
+	else
+	{
+		while ((*pt)->next != NULL)
+			*pt = (*pt)->next;
+		tmp->prev = *pt;
+		(*pt)->next = tmp;
+	}
+}
+
+static int			ft_verif(char *str, int bo)
+{
+	while (*str)
+	{
+		while (*str == ' ' && *str)
+			str++;
+		while (ft_isdigit(*str) == 1 && *str)
+		{
+			bo = 1;
+			str++;
+		}
+		if (*str == ',' && bo == 1)
+		{
+			if (*str != '0')
+				return (0);
+			else
+				*str++;
+			if (*str != 'X' || *str != 'x')
+				return (0);
+			else
+				str++;
+			while (ft_ishexa(str) == 1)
+				str++;
+		}
+		else if (*str != ' ')
+			return (0);
+		bo = 0;
+	}
+	return (1);
+}
+
+t_point				*ft_read_file(t_point *pt1, char *file, char *str)
 {
 	int				x;
 	int				y;
@@ -25,7 +88,23 @@ t_point				*ft_read_file(char *file, char *str)
 	{
 		while (*str)
 		{
-			if (ft_verif(str))
+			if (ft_verif(str, 0) == 0)
+				ft_error();
+			while (*str == ' ' && *str)
+				str++;
+			alt = ft_atoi(str);
+			while (ft_isdigit(*str) && *str)
+				str++;
+			if (*str == ',')
+			{
+				str++;
+				color = ft_atoihexa(str);
+				while (ft_ishexa(str) == 1)
+					*str++;
+			}
+			while (*str == ' ' && *str)
+				str++;
+			ft_createpoint(&pt1, x, y, alt);
 			x++;
 		}
 		y++;
