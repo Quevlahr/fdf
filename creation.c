@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../fdf.h"
+#include "fdf.h"
 
 static int			ft_ishexa(char *str)
 {
@@ -58,18 +58,32 @@ static int			ft_verif(char *str, int bo)
 		if (*str == ',' && bo == 1)
 		{
 			if (*str != '0')
+			{
+				ft_putendl("1");
 				return (0);
+			}
 			else
 				str++;
 			if (*str != 'X' || *str != 'x')
+			{
+				ft_putendl("2");
 				return (0);
+			}
 			else
 				str++;
 			while (ft_ishexa(str) == 1)
 				str++;
+			if (ft_ishexa(str) == 0)
+			{
+				ft_putendl("3");
+				return (0);
+			}
 		}
-		else if (*str != ' ')
+		else if (*str != ' ' && *str != '\n')
+		{
+			ft_putendl(str);
 			return (0);
+		}
 		bo = 0;
 	}
 	return (1);
@@ -85,6 +99,7 @@ t_point				*ft_read_file(t_point *pt1, t_help *tmp, char *file, char *str)
 		tmp->x = 0;
 		while (*str)
 		{
+			ft_putstr(str);
 			if (ft_verif(str, 0) == 0)
 				ft_error();
 			while (*str == ' ' && *str)
