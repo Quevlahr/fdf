@@ -33,6 +33,14 @@ typedef struct			s_point
 	struct s_point		*prev;
 }						t_point;
 
+typedef struct			s_help
+{
+	int					x;
+	int					y;
+	int					alt;
+	int					color;
+}						t_help;
+
 typedef struct			s_tool
 {
 	int					x;
@@ -46,8 +54,9 @@ typedef struct			s_tool
 }						t_tool;
 
 int					main(int ac, char **av);
-t_point				*ft_read_file(char *file, char *str)
-void				ft_error(void)
+t_point				*ft_read_file(t_point *pt1, t_help *tmp, char *file, char *str);
+void				ft_error(void);
+void				ft_help1(t_help **tmp);
 
 
 #endif

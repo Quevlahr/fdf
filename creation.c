@@ -60,7 +60,7 @@ static int			ft_verif(char *str, int bo)
 			if (*str != '0')
 				return (0);
 			else
-				*str++;
+				str++;
 			if (*str != 'X' || *str != 'x')
 				return (0);
 			else
@@ -75,38 +75,36 @@ static int			ft_verif(char *str, int bo)
 	return (1);
 }
 
-t_point				*ft_read_file(t_point *pt1, char *file, char *str)
+t_point				*ft_read_file(t_point *pt1, t_help *tmp, char *file, char *str)
 {
-	int				x;
-	int				y;
-	int				alt;
 	int				fd;
 
 	fd = open(file, O_RDONLY);
-	y = 0;
 	while (get_next_line(fd, &str) > 0)
 	{
+		tmp->x = 0;
 		while (*str)
 		{
 			if (ft_verif(str, 0) == 0)
 				ft_error();
 			while (*str == ' ' && *str)
 				str++;
-			alt = ft_atoi(str);
+			tmp->alt = ft_atoi(str);
 			while (ft_isdigit(*str) && *str)
 				str++;
 			if (*str == ',')
 			{
 				str++;
-				color = ft_atoihexa(str);
+				// tmp->color = ft_atoihexa(str); 
 				while (ft_ishexa(str) == 1)
-					*str++;
+					str++;
 			}
 			while (*str == ' ' && *str)
 				str++;
-			ft_createpoint(&pt1, x, y, alt);
-			x++;
+			ft_createpoint(&pt1, tmp->x, tmp->y, tmp->alt);
+			tmp->x++;
 		}
-		y++;
+		tmp->y++;
 	}
+	return (pt1);
 }

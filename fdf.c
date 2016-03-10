@@ -15,8 +15,13 @@
 int				main(int ac, char **av)
 {
 	t_point		*pnt;
+	t_help		*tmp;
 	t_tool		*tool;
 
-	pnt = ft_read_file(av[1], NULL, NULL);
+	tmp = NULL;
+	ft_help1(&tmp);
+	pnt = ft_read_file(NULL, tmp, av[1], NULL);
+	(void) tool;
+	(void) ac;
 	return (0);
 }

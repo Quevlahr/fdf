@@ -17,3 +17,12 @@ void	ft_error(void)
 	ft_putstr("error\n");
 	exit(EXIT_FAILURE);
 }
+
+void	ft_help1(t_help **tmp)
+{
+	*tmp = (t_help*)malloc(sizeof(t_help));
+	(*tmp)->x = 0;
+	(*tmp)->y = 0;
+	(*tmp)->alt = 0;
+	(*tmp)->color = 0;
+}
