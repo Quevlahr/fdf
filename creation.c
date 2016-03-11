@@ -14,8 +14,16 @@
 
 static int			ft_ishexa(char *str)
 {
-	(void)str;
-	return (1);
+
+		ft_putchar(*str);
+		ft_putchar('\n');
+		if (ft_isdigit(*str) == 1 || (*str <= 'f' && *str >= 'a') || (*str <= 'F' && *str >= 'A'))
+		{
+			return (1);
+		}
+		else
+			return (0);
+
 }
 
 void				ft_createpoint(t_point **pt, int x, int y, int alt)
@@ -55,35 +63,50 @@ static int			ft_verif(char *str, int bo)
 			bo = 1;
 			str++;
 		}
+
 		if (*str == ',' && bo == 1)
 		{
+			str++;
 			if (*str != '0')
 			{
-				ft_putendl("1");
+			ft_putstr("1");
+			ft_putchar(*str);
+			ft_putstr("1");
 				return (0);
 			}
 			else
 				str++;
-			if (*str != 'X' || *str != 'x')
+			if (*str != 'X' && *str != 'x')
 			{
-				ft_putendl("2");
+			ft_putstr("2");
+			ft_putchar(*str);
+			ft_putstr("2");
 				return (0);
 			}
 			else
 				str++;
 			while (ft_ishexa(str) == 1)
 				str++;
-			if (ft_ishexa(str) == 0)
+			if (*str != ' ' && ft_ishexa(str) == 0)
 			{
-				ft_putendl("3");
+			ft_putstr("3");
+			ft_putchar(*str);
+			ft_putstr("3");
 				return (0);
 			}
 		}
-		else if (*str != ' ' && *str != '\n')
+		else if (*str == ' ')
+			str++;
+		else if (*str == '\0')
+			return (1);
+		else
 		{
-			ft_putendl(str);
+			ft_putstr("4");
+			ft_putchar(*str);
+			ft_putstr("4");
 			return (0);
 		}
+		ft_putendl(str);
 		bo = 0;
 	}
 	return (1);
@@ -96,12 +119,12 @@ t_point				*ft_read_file(t_point *pt1, t_help *tmp, char *file, char *str)
 	fd = open(file, O_RDONLY);
 	while (get_next_line(fd, &str) > 0)
 	{
+		// ft_putendl(str);
 		tmp->x = 0;
+		if (ft_verif(str, 0) == 0)
+			ft_error();
 		while (*str)
 		{
-			ft_putstr(str);
-			if (ft_verif(str, 0) == 0)
-				ft_error();
 			while (*str == ' ' && *str)
 				str++;
 			tmp->alt = ft_atoi(str);
