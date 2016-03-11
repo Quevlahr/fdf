@@ -19,9 +19,10 @@ int				main(int ac, char **av)
 	t_tool		*tool;
 
 	tmp = NULL;
+	tool = NULL;
 	ft_help1(&tmp);
+	ft_help2(&tool);
 	pnt = ft_read_file(NULL, tmp, av[1], NULL);
-	(void) tool;
 	(void) ac;
 	return (0);
 }
