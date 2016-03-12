@@ -29,6 +29,7 @@ void	ft_help1(t_help **tmp)
 
 void	ft_help2(t_tool **tool, void *mlx, void *win)
 {
+	*tool = (t_tool*)malloc(sizeof(t_tool));
 	(*tool)->x = 0;
 	(*tool)->y = 0;
 	(*tool)->zoom = 14;
@@ -37,6 +38,8 @@ void	ft_help2(t_tool **tool, void *mlx, void *win)
 	(*tool)->ajout_y = LENGTH / 2 - (*tool)->zoom;
 	(*tool)->mlx = mlx;
 	(*tool)->win = win;
+	// (void)mlx;
+	// (void)win;
 }
 
 // static void		ft_putpoints(t_point *pnt)
