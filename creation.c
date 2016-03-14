@@ -12,6 +12,24 @@
 
 #include "fdf.h"
 
+static void		ft_putpoints(t_point *pnt)
+{
+	while (pnt->prev)
+		pnt = pnt->prev;
+	while (pnt)
+	{
+		ft_putnbr(pnt->x);
+		ft_putstr(" - ");
+		ft_putnbr(pnt->y);
+		ft_putstr(" - ");
+		ft_putnbr(pnt->alt);
+		ft_putstr(" - ");
+		ft_putnbr(pnt->color);
+		ft_putstr(";\n");
+		pnt = pnt->next;
+	}
+}
+
 static int			ft_ishexa(char *str)
 {
 
@@ -30,6 +48,7 @@ void				ft_createpoint(t_point **pt, t_help *help)
 	tmp->x = help->x;
 	tmp->y = help->y;
 	tmp->a = 0;
+	ft_putendl("here ?0");
 	tmp->b = 0;
 	tmp->alt = help->alt;
 	tmp->color = help->color;
@@ -41,9 +60,12 @@ void				ft_createpoint(t_point **pt, t_help *help)
 	}
 	else
 	{
+		ft_putendl("here ?1");
 		while ((*pt)->next != NULL)
 			*pt = (*pt)->next;
+		ft_putendl("here ?2");
 		tmp->prev = *pt;
+		ft_putendl("here ?3");
 		(*pt)->next = tmp;
 	}
 }
@@ -115,9 +137,12 @@ t_point				*ft_read_file(t_point *pnt, t_help *tmp, char *file, char *str)
 {
 	int				fd;
 
-	fd = open(file, O_RDONLY);
+	if ((fd = open(file, O_RDONLY)) < 0)
+		ft_error();
 	while (get_next_line(fd, &str) > 0)
 	{
+		ft_putendl("ici ?");
+		ft_putendl(str);
 		tmp->x = 0;
 		if (ft_verif(str, 0) == 0)
 			ft_error();
@@ -125,23 +150,37 @@ t_point				*ft_read_file(t_point *pnt, t_help *tmp, char *file, char *str)
 		{
 			while (*str == ' ' && *str)
 				str++;
+	ft_putendl("1 - 1");
 			tmp->alt = ft_atoi(str);
+	ft_putendl("1 - 2");
 			while (ft_isdigit(*str) && *str)
 				str++;
 			if (*str == ',')
 			{
 				str += 3;
+	ft_putendl("1 - 3");
 				tmp->color = ft_atoihexa(str);
+	ft_putendl("1 - 4");
 				while (ft_ishexa(str) == 1)
 					str++;
 			}
 			while (*str == ' ' && *str)
 				str++;
+	ft_putendl("1 - 5");
 			ft_createpoint(&pnt, tmp);
+			if (str == '\0')
+			{
+				ft_putendl("DEBUT");
+				ft_putpoints(pnt);
+			}
 			tmp->color = 0;
 			tmp->x++;
 		}
 		tmp->y++;
 	}
+	ft_putendl("FIN");
+	ft_putpoints(pnt);
+	if (pnt == NULL)
+		ft_error();
 	return (pnt);
 }

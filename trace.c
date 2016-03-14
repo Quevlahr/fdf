@@ -14,23 +14,23 @@
 
 
 
-// void			ft_calc_iso1(t_point **pnt, t_tool *tool)
-// {
-// 	ft_atthebeginning(pnt);
-// 	while (*pnt)
-// 	{
-// 		(*pnt)->a = (*pnt)->x * tool->zoom + tool->ajout_x;
-// 		(*pnt)->b = (*pnt)->y * tool->zoom + tool->ajout_y;
+void			ft_calc_iso1(t_point *pnt, t_tool *tool)
+{
+	ft_atthebeginning(&pnt);
+	while (pnt)
+	{
+		pnt->a = pnt->x * tool->zoom + tool->ajout_x;
+		pnt->b = pnt->y * tool->zoom + tool->ajout_y;
 
-// 		(*pnt)->a += (*pnt)->y * tool->zoom;
-// 		(*pnt)->b -= (*pnt)->x * tool->zoom * 0.5; // sin(30)
-// 		(*pnt)->b -= (*pnt)->y * tool->zoom * 0.5;
+		pnt->a += pnt->y * tool->zoom;
+		pnt->b -= pnt->x * tool->zoom * 0.5; // sin(30)
+		pnt->b -= pnt->y * tool->zoom * 0.5;
 
-// 		if ((*pnt)->alt != 0)
-// 			(*pnt)->b -= (*pnt)->alt * tool->zoom * tool->height;
-// 		*pnt = (*pnt)->next;
-// 	}
-// }
+		if (pnt->alt != 0)
+			pnt->b -= pnt->alt * tool->zoom * tool->height;
+		pnt = pnt->next;
+	}
+}
 
 // void			ft_trace3(void *mlx, void *win, t_point *pt1, t_max_xy *max)
 // {
@@ -94,24 +94,21 @@ void				ft_trace(t_tool *tool)
 {
 	t_point			*pnt;
 
-	ft_putendl("1");
 	pnt = tool->p;
-	ft_putendl("2");
 	tool->ajout_x = LENGTH / 2 - tool->x * tool->zoom / 2;
 	tool->ajout_y = LENGTH / 2 - tool->y * tool->zoom / 2;
-	// ft_calc_iso1(&pnt, tool);
-	ft_putendl("3");
-	ft_atthebeginning(&pnt);
-	while (pnt->next)
-	{
-		pnt->a = pnt->x * tool->zoom + tool->ajout_x;
-		pnt->b = pnt->y * tool->zoom + tool->ajout_y;
+	ft_calc_iso1(pnt, tool);
+	// ft_atthebeginning(&pnt);
+	// while (pnt->next)
+	// {
+	// 	pnt->a = pnt->x * tool->zoom + tool->ajout_x;
+	// 	pnt->b = pnt->y * tool->zoom + tool->ajout_y;
 
-		pnt->a += pnt->y * tool->zoom;
-		pnt->b -= pnt->x * tool->zoom * 0.5; // sin(30)
-		pnt->b -= pnt->y * tool->zoom * 0.5;
-		pnt = pnt->next;
-	}
+	// 	pnt->a += pnt->y * tool->zoom;
+	// 	pnt->b -= pnt->x * tool->zoom * 0.5; // sin(30)
+	// 	pnt->b -= pnt->y * tool->zoom * 0.5;
+	// 	pnt = pnt->next;
+	// }
 	ft_atthebeginning(&pnt);
 	while (pnt->next)
 	{

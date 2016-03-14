@@ -55,13 +55,18 @@ typedef struct			s_tool
 }						t_tool;
 
 int					main(int ac, char **av);
+
 t_point				*ft_read_file(t_point *pt1, t_help *tmp, char *file, char *str);
+
 void				ft_attheend(t_point **pnt);
 void				ft_atthebeginning(t_point **pnt);
 void				ft_error(void);
 void				ft_help1(t_help **tmp);
 void				ft_help2(t_point *pnt, t_tool **tool, void *mlx, void *win);
+
 void				ft_trace(t_tool *tool);
+
+void				ft_menu(t_tool *tool);
 
 
 #endif
