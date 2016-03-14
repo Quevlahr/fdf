@@ -15,7 +15,7 @@ NAME 		= 	fdf
 CC			= 	gcc
 CFLAGS		= 	-Wall -Werror -Wextra -g
 
-SRC 		= 	fdf.c creation.c utilities.c
+SRC 		= 	fdf.c creation.c utilities.c trace.c
 
 LIB			=	libft/libft.a -lmlx -framework OpenGL -framework AppKit
 

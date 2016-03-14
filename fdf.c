@@ -36,15 +36,33 @@ int				ft_putkey(int keycode, t_tool *tool)
 {
 	ft_putstr("key event ");
 	ft_putnbrdl(keycode);
-	if (keycode == 53)
+	if (keycode == 53) // echap
 	{
 		mlx_destroy_window(tool->mlx, tool->win);
 		exit(0);
 	}
-	else if (keycode == 49)
+	else if (keycode == 49) // espace
+	{
 		mlx_clear_window(tool->mlx, tool->win);
-	else if (keycode == 46)
+		ft_putendl("4");
+		ft_trace(tool);
+	}
+	else if (keycode == 46) // m
+	{
+		mlx_clear_window(tool->mlx, tool->win);
+		ft_putendl("5");
 		ft_menu(tool);
+	}
+	else if (keycode == 69) // plus
+	{
+		tool->zoom += 1;
+		ft_trace(tool);
+	}
+	else if (keycode == 46) // moins
+	{
+		tool->zoom -= 1;
+		ft_trace(tool);
+	}
 	return (1);
 }
 
@@ -63,10 +81,12 @@ int				main(int ac, char **av)
 	if ((mlx = mlx_init()) == NULL)
 		ft_error();
 	win = mlx_new_window(mlx, LENGTH, LENGTH, "Test_point");
-	ft_help2(&tool, mlx, win);
-	ft_putendl("YOLO");
+	ft_help2(pnt, &tool, mlx, win);
+	ft_atthebeginning(&pnt);
+	tool->p = pnt;
 	ft_menu(tool);
-	mlx_key_hook(tool->win, ft_putkey, tool);
+	// ft_trace(pnt, tool);
+	mlx_key_hook(tool->win, ft_putkey, &tool);
 	mlx_loop(tool->mlx);
 	(void) ac;
 	return (0);

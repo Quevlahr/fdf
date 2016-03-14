@@ -12,13 +12,25 @@
 
 #include "fdf.h"
 
-void	ft_error(void)
+void			ft_atthebeginning(t_point **pnt)
+{
+	while ((*pnt)->prev != NULL)
+		*pnt = (*pnt)->prev;
+}
+
+void			ft_attheend(t_point **pnt)
+{
+	while ((*pnt)->next != NULL)
+		*pnt = (*pnt)->next;
+}
+
+void			ft_error(void)
 {
 	ft_putstr("error\n");
 	exit(EXIT_FAILURE);
 }
 
-void	ft_help1(t_help **tmp)
+void			ft_help1(t_help **tmp)
 {
 	*tmp = (t_help*)malloc(sizeof(t_help));
 	(*tmp)->x = 0;
@@ -27,19 +39,26 @@ void	ft_help1(t_help **tmp)
 	(*tmp)->color = 0;
 }
 
-void	ft_help2(t_tool **tool, void *mlx, void *win)
+void			ft_help2(t_point *pnt, t_tool **tool, void *mlx, void *win)
 {
 	*tool = (t_tool*)malloc(sizeof(t_tool));
 	(*tool)->x = 0;
 	(*tool)->y = 0;
 	(*tool)->zoom = 14;
 	(*tool)->height = 1.5;
-	(*tool)->ajout_x = LENGTH / 2 - (*tool)->zoom;
-	(*tool)->ajout_y = LENGTH / 2 - (*tool)->zoom;
+	(*tool)->ajout_x = 0;
+	(*tool)->ajout_y = 0;
 	(*tool)->mlx = mlx;
 	(*tool)->win = win;
-	// (void)mlx;
-	// (void)win;
+	ft_attheend(&pnt);
+	while (pnt->prev)
+	{
+		if ((*tool)->y < pnt->y)
+			(*tool)->y = pnt->y;
+		if ((*tool)->x < pnt->x)
+			(*tool)->x = pnt->x;
+		pnt = pnt->prev;
+	}
 }
 
 // static void		ft_putpoints(t_point *pnt)
