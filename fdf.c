@@ -12,24 +12,6 @@
 
 #include "fdf.h"
 
-static void		ft_putpoints(t_point *pnt)
-{
-	while (pnt->prev)
-		pnt = pnt->prev;
-	while (pnt)
-	{
-		ft_putnbr(pnt->x);
-		ft_putstr(" - ");
-		ft_putnbr(pnt->y);
-		ft_putstr(" - ");
-		ft_putnbr(pnt->alt);
-		ft_putstr(" - ");
-		ft_putnbr(pnt->color);
-		ft_putstr(";\n");
-		pnt = pnt->next;
-	}
-}
-
 int				ft_putkey(int keycode, t_tool *tool)
 {	
 	// ft_putstr("key event ");
@@ -76,33 +58,19 @@ int				main(int ac, char **av)
 
 	help = NULL;
 	tool = NULL;
-	ft_putendl("1");
 	ft_help1(&help);
-	ft_putendl("2");
 	pnt = ft_read_file(NULL, help, av[1], NULL);
-	ft_putendl("FIN");
-	ft_putpoints(pnt);
-	mlx = mlx_init();
-	// if ((mlx = mlx_init()) == NULL)
-	// {
-	// 	ft_putendl("mlx_init marche pas");
-	// 	ft_error();
-	// }
-	ft_putendl("Yop or not");
-	if ((win = mlx_new_window(mlx, LENGTH, LENGTH, "Test_point")) == NULL)
-	{
-		ft_putendl("mlx_new_window marche pas");
+	ft_putendl("JOULI GANT");
+	if ((mlx = mlx_init()) == NULL)
 		ft_error();
-	}
-	ft_putendl("3");
+	ft_putendl("OUPA");
+	if ((win = mlx_new_window(mlx, LENGTH, LENGTH, "Test_point")) == NULL)
+		ft_error();
 	ft_help2(pnt, &tool, mlx, win);
-	ft_putendl("4");
 	ft_atthebeginning(&pnt);
 	tool->p = pnt;
-	ft_putendl("5");
 	ft_menu(tool);
 	// ft_trace(tool);
-	ft_putendl("6");
 	mlx_key_hook(tool->win, ft_putkey, tool);
 	// mlx_loop_hook(tool->win, ft_putyolo, tool);
 	mlx_loop(tool->mlx);
