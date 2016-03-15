@@ -55,9 +55,7 @@ void *mlx_init()
   new_mlx->loop_hook = NULL;
   new_mlx->loop_hook_data = NULL;
   new_mlx->main_loop_active = 0;
-
   new_mlx->appid = [NSApplication sharedApplication];
-
   // super magic trick to detach app from terminal, get menubar & key input events
   for (NSRunningApplication * app in [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.apple.finder"])
     {
@@ -93,16 +91,22 @@ void *mlx_init()
 
 void mlx_loop(mlx_ptr_t *mlx_ptr)
 {
+  printf("SDRTFYGUHJ1\n");
   CFRunLoopObserverRef observer;
+  printf("SDRTFYGUHJ2\n");
   CFRunLoopObserverContext ocontext = {.version = 0, .info = mlx_ptr, .retain = NULL, .release = NULL, .copyDescription = NULL};
 
+  printf("SDRTFYGUHJ3\n");
   mlx_ptr->main_loop_active = 1;
 
+  printf("SDRTFYGUHJ4\n");
   observer = CFRunLoopObserverCreate(NULL, kCFRunLoopBeforeTimers, true, 0, do_loop_flush, &ocontext);
+  printf("SDRTFYGUHJ5\n");
   CFRunLoopAddObserver(CFRunLoopGetMain(), observer, kCFRunLoopCommonModes);
 
   //  [[[MlxLoopHookObj alloc] initWithPtr:mlx_ptr] performSelector:@selector(do_loop_hook) withObject:nil afterDelay:0.0];
 
+  printf("SDRTFYGUHJ6\n");
   [NSApp run];
 }
 
