@@ -14,20 +14,20 @@
 
 
 
-void			ft_calc_iso1(t_point *pnt, t_tool *tool)
+void			ft_calc_iso1(t_point *pnt, t_tool tool)
 {
 	ft_atthebeginning(&pnt);
 	while (pnt)
 	{
-		pnt->a = pnt->x * tool->zoom + tool->ajout_x;
-		pnt->b = pnt->y * tool->zoom + tool->ajout_y;
+		pnt->a = pnt->x * tool.zoom + tool.ajout_x;
+		pnt->b = pnt->y * tool.zoom + tool.ajout_y;
 
-		pnt->a += pnt->y * tool->zoom;
-		pnt->b -= pnt->x * tool->zoom * 0.5; // sin(30)
-		pnt->b -= pnt->y * tool->zoom * 0.5;
+		pnt->a += pnt->y * tool.zoom;
+		pnt->b -= pnt->x * tool.zoom * 0.5; // sin(30)
+		pnt->b -= pnt->y * tool.zoom * 0.5;
 
 		if (pnt->alt != 0)
-			pnt->b -= pnt->alt * tool->zoom * tool->height;
+			pnt->b -= pnt->alt * tool.zoom * tool.height;
 		pnt = pnt->next;
 	}
 }
@@ -90,13 +90,13 @@ void			ft_calc_iso1(t_point *pnt, t_tool *tool)
 // 		}
 // }
 
-void				ft_trace(t_tool *tool)
+void				ft_trace(t_tool tool)
 {
 	t_point			*pnt;
 
-	pnt = tool->p;
-	tool->ajout_x = LENGTH / 2 - tool->x * tool->zoom / 2;
-	tool->ajout_y = LENGTH / 2 - tool->y * tool->zoom / 2;
+	pnt = tool.p;
+	tool.ajout_x = LENGTH / 2 - tool.x * tool.zoom / 2;
+	tool.ajout_y = LENGTH / 2 - tool.y * tool.zoom / 2;
 	ft_calc_iso1(pnt, tool);
 	// ft_atthebeginning(&pnt);
 	// while (pnt->next)
@@ -113,7 +113,7 @@ void				ft_trace(t_tool *tool)
 	while (pnt->next)
 	{
 		// ft_putnbrdl(tool->ajout_x);
-		mlx_pixel_put(tool->mlx, tool->win, pnt->a, 
+		mlx_pixel_put(tool.mlx, tool.win, pnt->a, 
 			pnt->b, 0xFFFFFF);
 		pnt = pnt->next;
 	}

@@ -32,31 +32,33 @@ void			ft_error(void)
 
 void			ft_help1(t_help **tmp)
 {
-	*tmp = (t_help*)malloc(sizeof(t_help));
+	if ((*tmp = (t_help*)malloc(sizeof(t_help))) == NULL)
+		ft_error();
 	(*tmp)->x = 0;
 	(*tmp)->y = 0;
 	(*tmp)->alt = 0;
 	(*tmp)->color = 0;
 }
 
-void			ft_help2(t_point *pnt, t_tool **tool, void *mlx, void *win)
+void			ft_help2(t_point *pnt, t_tool *tool, void *mlx, void *win)
 {
-	*tool = (t_tool*)malloc(sizeof(t_tool));
-	(*tool)->x = 0;
-	(*tool)->y = 0;
-	(*tool)->zoom = 14;
-	(*tool)->height = 1.5;
-	(*tool)->ajout_x = 0;
-	(*tool)->ajout_y = 0;
-	(*tool)->mlx = mlx;
-	(*tool)->win = win;
+	if ((tool = (t_tool*)malloc(sizeof(t_tool))) == NULL)
+		ft_error();
+	(*tool).x = 0;
+	(*tool).y = 0;
+	(*tool).zoom = 14;
+	(*tool).height = 1.5;
+	(*tool).ajout_x = 0;
+	(*tool).ajout_y = 0;
+	(*tool).mlx = mlx;
+	(*tool).win = win;
 	ft_attheend(&pnt);
 	while (pnt->prev)
 	{
-		if ((*tool)->y < pnt->y)
-			(*tool)->y = pnt->y;
-		if ((*tool)->x < pnt->x)
-			(*tool)->x = pnt->x;
+		if ((*tool).y < pnt->y)
+			(*tool).y = pnt->y;
+		if ((*tool).x < pnt->x)
+			(*tool).x = pnt->x;
 		pnt = pnt->prev;
 	}
 }

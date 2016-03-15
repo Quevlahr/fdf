@@ -29,22 +29,22 @@ all: $(NAME)
 
 .SILENT : $(NAME)
 $(NAME):
-	# cd libft/ && $(MAKE) re
-	# cd minilibx_macos/ && $(MAKE) re
+	cd libft/ && $(MAKE) re
+	cd minilibx_macos/ && $(MAKE) re
 	$(CC) $(CFLAGS) -c $(HEADER) $(SRC)
 	$(CC) -o $(NAME) $(OBJ) $(LIB)
 
 .SILENT : clean
 clean:
-	# cd libft/ && $(MAKE) clean
-	# cd minilibx_macos/ && $(MAKE) clean
+	cd libft/ && $(MAKE) clean
+	cd minilibx_macos/ && $(MAKE) clean
 	rm -f $(OBJ)
 	rm -f *.gch
 
 .SILENT : fclean
 fclean: clean
-	# cd libft/ && $(MAKE) fclean
-	# cd minilibx_macos/ && $(MAKE) clean
+	cd libft/ && $(MAKE) fclean
+	cd minilibx_macos/ && $(MAKE) clean
 	rm -f $(NAME)
 
 re: fclean all

@@ -1,6 +1,8 @@
 //  mlx_init_loop.m
 // By Ol
 
+#include <stdio.h>
+
 #import <Cocoa/Cocoa.h>
 #import <OpenGL/gl3.h>
 #import <AppKit/NSOpenGLView.h>

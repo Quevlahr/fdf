@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-void			ft_menu(t_tool *tool)
+void			ft_menu(t_tool tool)
 {
 	char		*str1;
 	char		*str2;
@@ -24,7 +24,7 @@ void			ft_menu(t_tool *tool)
 	ft_strcpy(str2, "Bienvenue sur le projet Fil de Fer");
 	str3 = ft_strnew(87);
 	ft_strcpy(str3, "Appuyez sur espace pour commencer et sur m pour le menu");
-	mlx_string_put(tool->mlx, tool->win, LENGTH / 2 - (ft_strlen(str1) / 2) * 10, 0, 0xffffff, str1);
-	mlx_string_put(tool->mlx, tool->win, LENGTH / 2 - (ft_strlen(str2) / 2) * 10, 20, 0xffffff, str2);
-	mlx_string_put(tool->mlx, tool->win, LENGTH / 2 - (ft_strlen(str3) / 2) * 10, 40, 0xffffff, str3);
+	mlx_string_put(tool.mlx, tool.win, LENGTH / 2 - (ft_strlen(str1) / 2) * 10, 0, 0xffffff, str1);
+	mlx_string_put(tool.mlx, tool.win, LENGTH / 2 - (ft_strlen(str2) / 2) * 10, 20, 0xffffff, str2);
+	mlx_string_put(tool.mlx, tool.win, LENGTH / 2 - (ft_strlen(str3) / 2) * 10, 40, 0xffffff, str3);
 }
