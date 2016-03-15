@@ -65,8 +65,8 @@ void				ft_createpoint(t_point **pt, t_help *help)
 			*pt = (*pt)->next;
 		ft_putendl("here ?2");
 		tmp->prev = *pt;
-		ft_putendl("here ?3");
 		(*pt)->next = tmp;
+		ft_putendl("here ?3");
 	}
 }
 
@@ -178,8 +178,6 @@ t_point				*ft_read_file(t_point *pnt, t_help *tmp, char *file, char *str)
 		}
 		tmp->y++;
 	}
-	ft_putendl("FIN");
-	ft_putpoints(pnt);
 	if (pnt == NULL)
 		ft_error();
 	return (pnt);
