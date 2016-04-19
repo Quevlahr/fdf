@@ -81,13 +81,19 @@ void			ft_verif_taille(t_point *pnt, t_env *env, int ln, int bo)
 			ln = pnt->x;
 		}
 		else if (pnt->next->x == 0 && bo == 1 && ln != pnt->x)
+		{
+			ft_putendl("AQUI 5");
 			ft_error(NULL);
+		}
 		if (env->y < pnt->y)
 			env->y = pnt->y;
 		if (env->x < pnt->x)
 			env->x = pnt->x;
 		pnt = pnt->next;
 	}
-	if (pnt->next == NULL && bo == 1 && ln != pnt->x)
-		ft_error(NULL);
+	// if (pnt->next == NULL && bo == 1 && ln != pnt->x)
+	// {
+	// 	ft_putendl("AQUI 6");
+	// 	ft_error(NULL);
+	// }
 }
