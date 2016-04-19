@@ -5,21 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: quroulon <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/21 17:07:30 by quroulon          #+#    #+#             */
-/*   Updated: 2016/01/21 17:07:38 by quroulon         ###   ########.fr       */
+/*   Created: 2016/03/15 21:18:22 by quroulon          #+#    #+#             */
+/*   Updated: 2016/03/15 21:18:25 by quroulon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "libft/includes/libft.h"
-# include <mlx.h>
-#include <fcntl.h> // pour open
+# include "libft/libft.h"
+# include "minilibx_macos/mlx.h"
 # include <stdlib.h>
-# include <math.h>
+# include <fcntl.h>
 
-# define LENGTH 900
+# define LENGTH 1000
+# define WHITE 16777215
 
 typedef struct			s_point
 {
@@ -28,45 +28,51 @@ typedef struct			s_point
 	float				a;
 	float				b;
 	int					alt;
-	int					color;
+	long				color;
 	struct s_point		*next;
 	struct s_point		*prev;
 }						t_point;
+
+typedef struct			s_env
+{
+	int					x;
+	int					y;
+	int					zoom;
+	int					len;
+	int					len_x;
+	int					len_y;
+	float				ajout_x;
+	float				ajout_y;
+	float				height;
+	struct s_point		*pnt;
+	void				*mlx;
+	void				*win;
+}						t_env;
 
 typedef struct			s_help
 {
 	int					x;
 	int					y;
 	int					alt;
-	int					color;
+	long				color;
 }						t_help;
 
-typedef struct			s_tool
-{
-	int					x;
-	int					y;
-	int					zoom;
-	float				ajout_x;
-	float				ajout_y;
-	float				height;
-	void				*mlx;
-	void				*win;
-	t_point				*p;
-}						t_tool;
-
-int					main(int ac, char **av);
-
-t_point				*ft_read_file(t_point *pt1, t_help *tmp, char *file, char *str);
-
-void				ft_attheend(t_point **pnt);
-void				ft_atthebeginning(t_point **pnt);
-void				ft_error(void);
-void				ft_help1(t_help **tmp);
-void				ft_help2(t_point *pnt, t_tool *tool, void *mlx, void *win);
-
-void				ft_trace(t_tool tool);
-
-void				ft_menu(t_tool tool);
-
+void					ft_error(t_env *env);
+void					ft_atthebeginning(t_point **pnt);
+void					ft_attheend(t_point **pnt);
+void					ft_putpoints(t_point *pnt);
+float					ft_found(t_point *pnt, int i, int boolean);
+void					ft_read(int fd, t_point **pnt, char *str);
+void					ft_menu(t_env env);
+void					ft_menu1(t_env env);
+void					ft_trace1(t_env env, t_point *pnt);
+int						ft_keyuse(int key, t_env *env);
+int						ft_verif(char *str, int bo);
+void					ft_verif_taille(t_point *pnt, t_env *env, int ln,
+										int bo);
+void					ft_put_pixel_v(t_point *pnt, t_env env, float a,
+										float b);
+void					ft_put_pixel_h(t_point *pnt, t_env env, float a,
+										float b);
 
 #endif
