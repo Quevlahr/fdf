@@ -78,11 +78,8 @@ void			ft_read(int fd, t_point **pnt, char *str)
 	while (get_next_line(fd, &str) > 0)
 	{
 		i = 0;
-		// if (ft_verif(str, 0) == 0)
-		// {
-		// 	ft_putendl("AQUI 8");
-		// 	ft_error(NULL);
-		// }
+		if (ft_verif(str, 0) == 0)
+			ft_error(NULL);
 		tmp.x = 0;
 		tmp.alt = 0;
 		while (str[i])
@@ -96,8 +93,5 @@ void			ft_read(int fd, t_point **pnt, char *str)
 		tmp.y++;
 	}
 	if (*pnt == NULL)
-	{
-		ft_putendl("AQUI 1");
 		ft_error(NULL);
-	}
 }

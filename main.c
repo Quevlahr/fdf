@@ -34,16 +34,10 @@ static void		launcher(t_point *pnt, t_env env)
 	ft_atthebeginning(&pnt);
 	env.pnt = pnt;
 	if ((env.mlx = mlx_init()) == NULL)
-	{
-		ft_putendl("AQUI 3");
 		ft_error(NULL);
-	}
 	if ((env.win = mlx_new_window(env.mlx, env.len_x, env.len_y
 		, "Fdf quroulon")) == NULL)
-	{
-		ft_putendl("AQUI 2");
 		ft_error(NULL);
-	}
 	ft_menu(env);
 	mlx_key_hook(env.win, ft_keyuse, &env);
 	mlx_loop(env.mlx);
@@ -67,10 +61,7 @@ int				main(int ac, char **av)
 		launcher(pnt, env);
 	}
 	else
-	{
-		ft_putendl("AQUI 4");
 		ft_error(NULL);
-	}
 	close(fd);
 	return (0);
 }
