@@ -22,6 +22,7 @@ LIB			=	-Llibft -lft -Lminilibx_macos -lmlx -framework OpenGL \
 				-framework AppKit
 
 OBJ			=	$(SRC:.c=.o)
+OBJ2		=	$(wildcard *.gch)
 
 HEADER 		=	libft/libft.h
 
@@ -40,7 +41,7 @@ $(NAME):
 clean:
 	@make clean -sC libft/
 	@make clean -sC minilibx_macos/
-	@rm -f $(OBJ)
+	@rm -f $(OBJ) $(OBJ2)
 	@echo "CLEAN DONE"
 
 .SILENT : fclean
