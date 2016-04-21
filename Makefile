@@ -30,7 +30,7 @@ HEADER 		=	libft/libft.h
 all: $(NAME)
 
 .SILENT : $(NAME)
-$(NAME):
+$(NAME): $(OBJ)
 	@make -sC libft/
 	@make -sC minilibx_macos/
 	@$(CC) $(CFLAGS) -c $(HEADER) $(SRC)
